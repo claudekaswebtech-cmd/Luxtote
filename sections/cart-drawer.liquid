@@ -1,0 +1,13 @@
+{% comment %}
+  Not added to any template. The cart script requests this section by name
+  through the Section Rendering API to refresh the header cart drawer.
+{% endcomment %}
+
+{% render 'cart-drawer-content' %}
+
+{% schema %}
+{
+  "name": "t:general.cart_drawer",
+  "settings": []
+}
+{% endschema %}

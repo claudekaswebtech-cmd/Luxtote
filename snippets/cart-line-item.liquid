@@ -1,0 +1,159 @@
+{% doc %}
+  Renders one cart line item. Shared by the cart page, cart drawer and cart popup.
+
+  @param {object} item - The cart line item
+  @param {number} index - Position of the item in the cart, starting at 1
+  @param {string} section_id - Id of the section rendering the cart
+  @param {string} [layout] - `page` (default), `drawer` (stacked controls, smaller image) or `compact` (quantity × price, no controls)
+
+  @example
+  {% render 'cart-line-item', item: item, index: forloop.index, section_id: section.id %}
+{% enddoc %}
+
+{% liquid
+  assign layout = layout | default: 'page'
+  assign title = item.product.title | escape
+
+  assign loading = 'lazy'
+  if index <= 3
+    assign loading = 'eager'
+  endif
+
+  assign image_width = settings.cart_image_width | times: 2
+  assign image_sizes = '(min-width: 750px) ' | append: settings.cart_image_width | append: 'px, 25vw'
+
+  assign image_alt = item.image.alt | default: item.product.title | escape
+
+  assign quantity_id = 'Quantity-' | append: section_id | append: '-' | append: index
+  assign quantity_label = 'cart.quantity.label' | t: title: item.product.title
+
+  assign show_options = false
+  unless item.product.has_only_default_variant
+    assign show_options = true
+  endunless
+  if item.properties.size > 0
+    assign show_options = true
+  endif
+  if item.selling_plan_allocation
+    assign show_options = true
+  endif
+%}
+
+<li class="cart-item cart-item--{{ layout }}" data-key="{{ item.key }}">
+  <a href="{{ item.url }}" class="cart-item__media" tabindex="-1" aria-hidden="true">
+    {%- if item.image -%}
+      {{
+        item.image
+        | image_url: width: image_width
+        | image_tag:
+          widths: '120, 180, 240, 320',
+          sizes: image_sizes,
+          loading: loading,
+          alt: image_alt
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'cart-item__placeholder' }}
+    {%- endif -%}
+  </a>
+
+  <div class="cart-item__details">
+    <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+
+    <div class="cart-item__price">
+      {%- if layout == 'compact' -%}
+        {%- assign unit_price = item.final_price | money -%}
+        {{ 'cart.popup.quantity_price' | t: quantity: item.quantity, price: unit_price }}
+      {%- else -%}
+        {%- if item.original_price != item.final_price -%}
+          <span class="visually-hidden">{{ 'cart.price.original' | t }}</span>
+          <s>{{ item.original_price | money }}</s>
+          <span class="visually-hidden">{{ 'cart.price.sale' | t }}</span>
+        {%- endif -%}
+        <span>{{ item.final_price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if item.unit_price_measurement -%}
+      <p class="cart-item__meta">
+        <span class="visually-hidden">{{ 'cart.price.unit' | t }}</span>
+        {{ item.unit_price | unit_price_with_measurement: item.unit_price_measurement }}
+      </p>
+    {%- endif -%}
+
+    {%- if show_options -%}
+      <dl class="cart-item__options">
+        {%- unless item.product.has_only_default_variant -%}
+          {%- for option in item.options_with_values -%}
+            <div>
+              <dt>{{ option.name }}:</dt>
+              <dd>{{ option.value }}</dd>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        {%- for property in item.properties -%}
+          {%- assign property_first_char = property.first | slice: 0 -%}
+          {%- if property.last != blank and property_first_char != '_' -%}
+            <div>
+              <dt>{{ property.first }}:</dt>
+              <dd>
+                {%- if property.last contains '/uploads/' -%}
+                  <a href="{{ property.last }}" target="_blank" rel="noopener">{{ property.last | split: '/' | last }}</a>
+                {%- else -%}
+                  {{ property.last }}
+                {%- endif -%}
+              </dd>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if item.selling_plan_allocation -%}
+          <div>
+            <dt class="visually-hidden">{{ 'cart.subscription' | t }}</dt>
+            <dd>{{ item.selling_plan_allocation.selling_plan.name }}</dd>
+          </div>
+        {%- endif -%}
+      </dl>
+    {%- endif -%}
+
+    {%- if item.line_level_discount_allocations.size > 0 -%}
+      <ul class="cart-item__discounts" role="list">
+        {%- for allocation in item.line_level_discount_allocations -%}
+          <li>{{ allocation.discount_application.title | escape }} (-{{ allocation.amount | money }})</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+
+  {%- unless layout == 'compact' -%}
+    <div class="cart-item__quantity">
+      {% render 'quantity-input',
+        id: quantity_id,
+        name: 'updates[]',
+        value: item.quantity,
+        label: quantity_label,
+        title: item.product.title,
+        rule: item.variant.quantity_rule,
+        key: item.key
+      %}
+
+      <a
+        href="{{ item.url_to_remove }}"
+        class="cart-item__remove"
+        data-cart-remove="{{ item.key }}"
+        aria-label="{{ 'cart.remove_item' | t: title: title }}"
+      >
+        {% render 'icon', name: 'trash' %}
+      </a>
+    </div>
+
+    <div class="cart-item__total">
+      {%- if item.original_line_price != item.final_line_price -%}
+        <span class="visually-hidden">{{ 'cart.price.original' | t }}</span>
+        <s>{{ item.original_line_price | money }}</s>
+        <span class="visually-hidden">{{ 'cart.price.sale' | t }}</span>
+      {%- endif -%}
+      <span>{{ item.final_line_price | money }}</span>
+    </div>
+  {%- endunless -%}
+</li>

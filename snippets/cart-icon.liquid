@@ -1,0 +1,24 @@
+{% doc %}
+  Renders the header cart link with the item count badge.
+  The count updates through `[data-cart-count]` after every cart change.
+
+  @param {string} [controls] - Id of the popup or drawer this link opens
+
+  @example
+  {% render 'cart-icon', controls: 'CartDrawer' %}
+{% enddoc %}
+
+<a
+  href="{{ routes.cart_url }}"
+  class="cart-icon"
+  {% if controls %}
+    aria-controls="{{ controls }}"
+    aria-expanded="false"
+  {% endif %}
+>
+  {{ 'icon-cart.svg' | inline_asset_content }}
+  <span class="visually-hidden">{{ 'cart.icon_label' | t }}</span>
+  <span class="cart-icon__count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>
+    {{- cart.item_count -}}
+  </span>
+</a>

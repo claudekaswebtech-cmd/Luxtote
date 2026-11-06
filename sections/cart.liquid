@@ -1,33 +1,69 @@
-{% comment %}
-  This section is used in the cart template to render /cart page with an
-  overview of the items in customer's cart.
+{{ 'cart-page.css' | asset_url | stylesheet_tag }}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
-{% endcomment %}
+{% liquid
+  assign form_id = 'CartForm-' | append: section.id
+%}
 
-<h1>{{ 'cart.title' | t }}</h1>
+<cart-items
+  class="cart-page {{ settings.cart_layout }}{% if settings.cart_sticky_summary %} cart-page--sticky{% endif %}"
+  data-section="{{ section.id }}"
+  {% if cart.empty? %}
+    data-empty
+  {% endif %}
+>
+  {%- if cart.empty? -%}
+    <div class="cart-page__empty">
+      <h1 class="cart-page__title">{{ 'cart.empty.title' | t }}</h1>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-page__empty-link">
+        {{- 'cart.continue_shopping' | t -}}
+      </a>
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+      {%- if shop.customer_accounts_enabled and customer == nil -%}
+        <p class="cart-page__login">
+          {{ 'cart.empty.login_html' | t: link: routes.account_login_url }}
+        </p>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <div class="cart-page__header">
+      <h1 class="cart-page__title">{{ 'cart.title' | t }}</h1>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-page__continue">
+        {{- 'cart.continue_shopping' | t -}}
+      </a>
+    </div>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+    <div class="cart-page__body">
+      <form action="{{ routes.cart_url }}" method="post" id="{{ form_id }}" class="cart-page__form" novalidate>
+        <div class="cart-page__columns" aria-hidden="true">
+          <span>{{ 'cart.columns.product' | t }}</span>
+          <span>{{ 'cart.columns.quantity' | t }}</span>
+          <span>{{ 'cart.columns.total' | t }}</span>
+        </div>
+
+        <ul class="cart-page__items" role="list" data-cart-region="items">
+          {%- for item in cart.items -%}
+            {% render 'cart-line-item', item: item, index: forloop.index, section_id: section.id %}
+          {%- endfor -%}
+        </ul>
+
+        <noscript>
+          <button type="submit" name="update" class="cart-page__update">{{ 'cart.update' | t }}</button>
+        </noscript>
+      </form>
+
+      <div class="cart-page__footer">
+        {% render 'cart-summary', form_id: form_id, show_express: true %}
+      </div>
+    </div>
+  {%- endif -%}
+</cart-items>
+
+<p
+  id="CartStatus-{{ section.id }}"
+  class="visually-hidden"
+  role="status"
+  data-message="{{ 'cart.status_updated' | t }}"
+></p>
 
 {% schema %}
 {

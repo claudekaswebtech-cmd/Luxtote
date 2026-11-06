@@ -9,12 +9,35 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "Crafted to carry everything",
+            "text_style": "text--title",
+            "alignment": "center"
+          }
+        },
+        "description": {
+          "type": "text",
+          "settings": {
+            "text": "Use this banner to introduce your brand, a new collection, or a seasonal offer.",
+            "text_style": "text--normal",
+            "alignment": "center"
+          }
+        }
+      },
+      "block_order": ["heading", "description"],
+      "settings": {
+        "overlay_opacity": 20,
+        "height": "hero--medium",
+        "content_position": "hero--center"
+      }
     }
   },
   "order": [
-    "main"
+    "hero"
   ]
 }

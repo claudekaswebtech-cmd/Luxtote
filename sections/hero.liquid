@@ -1,0 +1,194 @@
+{% liquid
+  assign overlay = section.settings.overlay_opacity | divided_by: 100.0
+
+  assign loading = 'lazy'
+  if section.index == 1
+    assign loading = 'eager'
+  endif
+%}
+
+<div
+  class="hero full-width {{ section.settings.height }} {{ section.settings.content_position }}"
+  style="--hero-overlay: {{ overlay }};"
+>
+  <div class="hero__media">
+    {%- if section.settings.image -%}
+      {{
+        section.settings.image
+        | image_url: width: 3840
+        | image_tag:
+          widths: '750, 1100, 1500, 1920, 2560, 3840',
+          sizes: '100vw',
+          loading: loading,
+          class: 'hero__image'
+      }}
+    {%- else -%}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__image hero__image--placeholder' }}
+    {%- endif -%}
+  </div>
+
+  <div class="hero__content">
+    <div class="hero__inner">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--content-grid);
+    overflow: hidden;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .hero--small {
+    min-height: 24rem;
+  }
+
+  .hero--medium {
+    min-height: 34rem;
+  }
+
+  .hero--large {
+    min-height: 44rem;
+  }
+
+  .hero--screen {
+    min-height: 100svh;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: var(--hero-overlay);
+  }
+
+  .hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__image--placeholder {
+    background: #e4e1dc;
+  }
+
+  .hero__content {
+    position: relative;
+    grid-column: 2;
+    display: flex;
+    padding-block: var(--section-spacing-mobile);
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 40rem;
+  }
+
+  .hero--top-left .hero__content {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .hero--center .hero__content {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero--bottom-left .hero__content {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  @media screen and (min-width: 750px) {
+    .hero__content {
+      padding-block: var(--section-spacing-desktop);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.hero.name",
+  "tag": "section",
+  "class": "section-hero",
+  "blocks": [{ "type": "@theme" }],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "t:labels.overlay_opacity",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "t:labels.height",
+      "options": [
+        { "value": "hero--small", "label": "t:options.size.small" },
+        { "value": "hero--medium", "label": "t:options.size.medium" },
+        { "value": "hero--large", "label": "t:options.size.large" },
+        { "value": "hero--screen", "label": "t:options.size.screen" }
+      ],
+      "default": "hero--medium"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "t:labels.content_position",
+      "options": [
+        { "value": "hero--top-left", "label": "t:options.content_position.top_left" },
+        { "value": "hero--center", "label": "t:options.content_position.center" },
+        { "value": "hero--bottom-left", "label": "t:options.content_position.bottom_left" }
+      ],
+      "default": "hero--center"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.hero.name",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "Crafted to carry everything",
+            "text_style": "text--title",
+            "alignment": "center"
+          }
+        },
+        "description": {
+          "type": "text",
+          "settings": {
+            "text": "Use this banner to introduce your brand, a new collection, or a seasonal offer.",
+            "text_style": "text--normal",
+            "alignment": "center"
+          }
+        }
+      },
+      "block_order": ["heading", "description"]
+    }
+  ]
+}
+{% endschema %}

@@ -1,10 +1,18 @@
 {
   "general": {
     "404": "Not found",
+    "accent": "Accent",
+    "animations": "Animations",
     "article": "Article",
+    "badges": "Badges",
     "block": "Block",
     "blog": "Blog",
+    "body": "Body",
+    "buttons": "Buttons",
     "cart": "Cart",
+    "cart_page": "Cart page",
+    "cart_drawer": "Cart drawer",
+    "cart_popup": "Cart popup",
     "collection": "Collection",
     "collections": "Collections",
     "collection_card": "Collection card",
@@ -12,42 +20,130 @@
     "colors": "Colors",
     "column": "Column",
     "content": "Content",
+    "currency": "Currency format",
     "custom_section": "Custom section",
     "fonts": "Fonts",
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
+    "headings": "Headings",
     "layout": "Layout",
+    "logo_and_favicon": "Logo and favicon",
     "main": "Main",
+    "margin": "Margin",
     "page": "Page",
     "password": "Password",
     "primary": "Primary",
     "product": "Product",
+    "product_cards": "Product cards",
+    "product_image": "Product image",
     "row": "Row",
     "search": "Search",
     "secondary": "Secondary",
     "section": "Section",
     "settings": "Settings",
     "sidebar": "Sidebar",
+    "social_media": "Social media",
+    "spacing": "Spacing",
+    "subheading": "Subheading",
     "text": "Text",
     "theme": "Theme",
-    "typography": "Typography"
+    "typography": "Typography",
+    "variant_picker": "Variant picker"
   },
   "labels": {
     "alignment": "Alignment",
     "background": "Background",
+    "badge_position": "Badge position",
+    "border": "Border",
+    "border_thickness": "Border thickness",
+    "cart_drawer_side": "Slide in from",
+    "cart_drawer_width": "Drawer width",
+    "cart_layout": "Layout",
+    "cart_note": "Allow order notes",
+    "cart_popup_accent": "Popup accent color",
+    "cart_popup_trigger": "Open popup on",
+    "cart_type": "Cart style",
+    "case": "Case",
+    "content_position": "Content position",
+    "corner_radius": "Corner radius",
+    "facebook": "Facebook",
+    "favicon": "Favicon",
+    "font": "Font",
+    "font_size": "Font size",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
+    "grid_gap_desktop": "Grid spacing on desktop",
+    "grid_gap_mobile": "Grid spacing on mobile",
     "grid_item_width": "Grid item width",
+    "height": "Height",
+    "hover_image": "Show second image on hover",
+    "image": "Image",
+    "image_border": "Show image border",
+    "image_hover_effect": "Image hover effect",
+    "image_ratio": "Image ratio",
+    "input_border_thickness": "Input border thickness",
     "input_corner_radius": "Input corner radius",
+    "instagram": "Instagram",
     "layout_direction": "Layout direction",
+    "letter_spacing": "Letter spacing",
+    "line_height": "Line height",
+    "logo": "Logo",
+    "logo_inverse": "Inverse logo",
+    "margin_bottom": "Margin bottom",
+    "margin_left": "Margin left",
+    "margin_right": "Margin right",
+    "margin_top": "Margin top",
     "menu": "Menu",
+    "overlay_opacity": "Image overlay",
     "padding": "Padding",
     "page_margin": "Page margin",
     "page_width": "Page width",
+    "pinterest": "Pinterest",
+    "reveal_on_scroll": "Fade in sections while scrolling",
+    "sale_badge": "Show sale badge",
+    "sale_badge_format": "Sale badge text",
+    "scale": "Scale",
+    "search_suggestions": "Suggest results while typing",
+    "section_spacing_desktop": "Space between sections on desktop",
+    "section_spacing_mobile": "Space between sections on mobile",
+    "selected_background": "Selected background",
+    "selected_text": "Selected text",
+    "show_currency_code": "Show currency code after prices",
     "show_payment_icons": "Show payment icons",
+    "show_vendor": "Show vendor",
+    "sold_out_badge": "Show sold out badge",
+    "sticky_summary": "Keep summary visible while scrolling",
+    "swatch_options": "Options shown as swatches",
+    "swatch_shape": "Swatch shape",
+    "swatch_size": "Swatch size",
+    "text_color": "Text color",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "tiktok": "TikTok",
+    "variant_display_type": "Display style",
+    "width": "Width",
+    "x": "X",
+    "youtube": "YouTube"
+  },
+  "info": {
+    "cart_layout": "Side by side applies to screens 990px and wider. Smaller screens always show the summary below the items",
+    "cart_popup_trigger": "Touch screens always open the popup on tap. With hover, clicking the cart icon opens the cart page",
+    "favicon": "Displayed at 32 x 32 px",
+    "logo_inverse": "Shown when the header uses a transparent background",
+    "pills_settings": "Pills settings",
+    "reduced_motion": "Animations stay off for visitors who have reduced motion turned on in their device settings",
+    "search_suggestions": "Products, collections, and pages appear in a dropdown as customers type",
+    "show_currency_code": "For example, $25.00 USD. Useful when selling in more than one currency",
+    "social_links": "Add the full link to each profile. Empty fields are hidden on the storefront",
+    "swatch_options": "Option names separated by commas, for example: Color, Material",
+    "swatch_settings": "Color and image swatch settings",
+    "variant_picker": "Choose how product variants are displayed"
+  },
+  "sections": {
+    "hero": {
+      "name": "Hero banner"
+    }
   },
   "options": {
     "alignment": {
@@ -55,22 +151,84 @@
       "center": "Center",
       "right": "Right"
     },
+    "badge_position": {
+      "top_left": "Top left",
+      "top_right": "Top right",
+      "bottom_left": "Bottom left"
+    },
+    "cart_drawer_side": {
+      "right": "Right",
+      "left": "Left"
+    },
+    "cart_layout": {
+      "stacked": "Summary below items",
+      "split": "Items left, summary right"
+    },
+    "cart_popup_trigger": {
+      "click": "Click",
+      "hover": "Hover"
+    },
+    "cart_type": {
+      "drawer": "Slide-out drawer",
+      "popup": "Popup",
+      "page": "Cart page"
+    },
+    "content_position": {
+      "top_left": "Top left",
+      "center": "Center",
+      "bottom_left": "Bottom left"
+    },
     "direction": {
       "horizontal": "Horizontal",
       "vertical": "Vertical"
+    },
+    "hover_effect": {
+      "none": "None",
+      "zoom": "Gentle zoom",
+      "lift": "Lift"
+    },
+    "image_ratio": {
+      "natural": "Original",
+      "square": "Square",
+      "portrait": "Portrait",
+      "landscape": "Landscape"
     },
     "page_width": {
       "narrow": "Narrow",
       "wide": "Wide"
     },
+    "sale_badge_format": {
+      "text": "Sale",
+      "percent": "Percent saved",
+      "amount": "Amount saved"
+    },
     "size": {
       "large": "Large",
+      "medium": "Medium",
+      "screen": "Full screen",
       "small": "Small"
+    },
+    "swatch_shape": {
+      "circle": "Circle",
+      "square": "Square",
+      "rounded": "Rounded square"
     },
     "text_style": {
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+    "text_transform": {
+      "none": "None",
+      "uppercase": "Uppercase",
+      "lowercase": "Lowercase",
+      "capitalize": "Capitalize"
+    },
+    "variant_picker": {
+      "dropdown": "Dropdown",
+      "pills": "Pills",
+      "color": "Color swatch",
+      "image": "Image swatch"
+    }
   }
 }

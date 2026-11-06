@@ -1,0 +1,20 @@
+{% doc %}
+  Renders the header cart icon with a popup that lists the cart items.
+  Opens on click or hover depending on the `cart_popup_trigger` theme setting.
+  Touch screens always open it on tap.
+
+  Listens for:
+  - `cart:open` on document: refreshes the contents and opens the popup,
+    for example after a product is added to the cart
+
+  @example
+  {% render 'cart-popup' %}
+{% enddoc %}
+
+<cart-popup class="cart-popup" data-trigger="{{ settings.cart_popup_trigger }}">
+  {% render 'cart-icon', controls: 'CartPopup' %}
+
+  <div id="CartPopup" class="cart-popup__panel" role="dialog" aria-label="{{ 'cart.icon_label' | t }}" hidden>
+    {% render 'cart-popup-content' %}
+  </div>
+</cart-popup>

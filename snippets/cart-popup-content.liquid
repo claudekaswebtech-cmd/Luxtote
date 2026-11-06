@@ -1,0 +1,43 @@
+{% doc %}
+  Renders the cart popup contents: compact line items, subtotal and actions.
+  Rendered by the cart popup in the header and by the `cart-popup` section,
+  which the cart script requests to refresh the popup after a change.
+
+  @example
+  {% render 'cart-popup-content' %}
+{% enddoc %}
+
+<cart-items
+  class="cart-popup__content"
+  data-section="cart-popup"
+  {% if cart.empty? %}
+    data-empty
+  {% endif %}
+>
+  {%- if cart.empty? -%}
+    <p class="cart-popup__empty">{{ 'cart.empty.title' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="cart-popup__button cart-popup__button--outline">
+      {{- 'cart.continue_shopping' | t -}}
+    </a>
+  {%- else -%}
+    <ul class="cart-popup__items" role="list" data-cart-region="items">
+      {%- for item in cart.items -%}
+        {% render 'cart-line-item', item: item, index: forloop.index, section_id: 'cart-popup', layout: 'compact' %}
+      {%- endfor -%}
+    </ul>
+
+    <p class="cart-popup__subtotal" data-cart-region="subtotal">
+      <span>{{ 'cart.popup.subtotal' | t }}</span>
+      <span class="cart-popup__amount">{{ cart.items_subtotal_price | money }}</span>
+    </p>
+
+    <form action="{{ routes.cart_url }}" method="post" class="cart-popup__actions">
+      <a href="{{ routes.cart_url }}" class="cart-popup__button cart-popup__button--outline">
+        {{- 'cart.popup.view_cart' | t -}}
+      </a>
+      <button type="submit" name="checkout" class="cart-popup__button cart-popup__button--solid">
+        {{- 'cart.checkout' | t -}}
+      </button>
+    </form>
+  {%- endif -%}
+</cart-items>

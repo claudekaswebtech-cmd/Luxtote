@@ -1,0 +1,40 @@
+{% doc %}
+  Renders the header cart icon and a slide-out cart drawer built on the native
+  `dialog` element, which handles focus trapping, Escape and the backdrop.
+
+  Listens for:
+  - `cart:open` on document: refreshes the contents and opens the drawer,
+    for example after a product is added to the cart
+
+  @example
+  {% render 'cart-drawer' %}
+{% enddoc %}
+
+<cart-drawer class="cart-drawer">
+  {% render 'cart-icon', controls: 'CartDrawer' %}
+
+  <dialog
+    id="CartDrawer"
+    class="cart-drawer__dialog cart-drawer__dialog--{{ settings.cart_drawer_side }}"
+    aria-labelledby="CartDrawerTitle"
+    scroll-lock
+  >
+    <div class="cart-drawer__inner">
+      <div class="cart-drawer__header">
+        <h2 id="CartDrawerTitle" class="cart-drawer__title">{{ 'cart.title' | t }}</h2>
+        <button type="button" class="cart-drawer__close" aria-label="{{ 'cart.drawer.close' | t }}" data-cart-drawer-close>
+          {% render 'icon', name: 'close' %}
+        </button>
+      </div>
+
+      {% render 'cart-drawer-content' %}
+
+      <p
+        id="CartStatus-cart-drawer"
+        class="visually-hidden"
+        role="status"
+        data-message="{{ 'cart.status_updated' | t }}"
+      ></p>
+    </div>
+  </dialog>
+</cart-drawer>

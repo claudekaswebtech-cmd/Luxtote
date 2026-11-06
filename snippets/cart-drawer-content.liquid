@@ -1,0 +1,37 @@
+{% doc %}
+  Renders the cart drawer contents: line items with quantity controls and the summary.
+  Rendered by the cart drawer in the header and by the `cart-drawer` section,
+  which the cart script requests to refresh the drawer after a change.
+
+  @example
+  {% render 'cart-drawer-content' %}
+{% enddoc %}
+
+<cart-items
+  class="cart-drawer__content"
+  data-section="cart-drawer"
+  {% if cart.empty? %}
+    data-empty
+  {% endif %}
+>
+  {%- if cart.empty? -%}
+    <div class="cart-drawer__empty">
+      <p>{{ 'cart.empty.title' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="cart-drawer__empty-link">
+        {{- 'cart.continue_shopping' | t -}}
+      </a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" class="cart-drawer__form" novalidate>
+      <ul class="cart-drawer__items" role="list" data-cart-region="items">
+        {%- for item in cart.items -%}
+          {% render 'cart-line-item', item: item, index: forloop.index, section_id: 'cart-drawer', layout: 'drawer' %}
+        {%- endfor -%}
+      </ul>
+    </form>
+
+    <div class="cart-drawer__footer">
+      {% render 'cart-summary', form_id: 'CartDrawerForm', full_width: true %}
+    </div>
+  {%- endif -%}
+</cart-items>

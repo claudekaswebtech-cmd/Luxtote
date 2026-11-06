@@ -1,0 +1,41 @@
+{% doc %}
+  Renders an inline SVG icon that inherits the current text color.
+
+  @param {string} name - Icon name: minus, plus, trash, close
+  @param {string} [class] - Extra classes for the svg element
+
+  @example
+  {% render 'icon', name: 'trash' %}
+{% enddoc %}
+
+<svg
+  class="icon icon--{{ name }} {{ class }}"
+  viewBox="0 0 20 20"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {%- case name -%}
+    {%- when 'minus' -%}
+      <path d="M5 10h10"/>
+    {%- when 'plus' -%}
+      <path d="M10 5v10M5 10h10"/>
+    {%- when 'trash' -%}
+      <path d="M3.5 5.5h13M8 5.5V3.75h4V5.5M5 5.5l.8 10.75h8.4L15 5.5M8.5 8.5v5M11.5 8.5v5"/>
+    {%- when 'close' -%}
+      <path d="M5 5l10 10M15 5L5 15"/>
+  {%- endcase -%}
+</svg>
+
+{% stylesheet %}
+  .icon {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+{% endstylesheet %}

@@ -1,5 +1,36 @@
+{% doc %}
+  Outputs global CSS custom properties based on theme settings.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
+{% liquid
+  case settings.card_image_ratio
+    when 'square'
+      assign card_image_ratio = '1 / 1'
+    when 'portrait'
+      assign card_image_ratio = '3 / 4'
+    when 'landscape'
+      assign card_image_ratio = '4 / 3'
+    else
+      assign card_image_ratio = 'auto'
+  endcase
+
+  case settings.cart_image_ratio
+    when 'square'
+      assign cart_image_ratio = '1 / 1'
+    when 'portrait'
+      assign cart_image_ratio = '3 / 4'
+    when 'landscape'
+      assign cart_image_ratio = '4 / 3'
+    else
+      assign cart_image_ratio = 'auto'
+  endcase
+%}
+
 {% style %}
-  {% # Loads all font variantions with display: swap %}
+  {% # Loads all font variations with display: swap %}
   {{ settings.type_primary_font | font_face: font_display: 'swap' }}
   {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
   {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
@@ -9,10 +40,76 @@
     --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
     --font-primary--style: {{ settings.type_primary_font.style }};
     --font-primary--weight: {{ settings.type_primary_font.weight }};
+
+    --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    --font-heading-weight: {{ settings.type_header_font.weight }};
+    --font-heading-style: {{ settings.type_header_font.style }};
+    --font-heading-size: {{ settings.heading_font_size }}px;
+    --font-heading-line-height: {{ settings.heading_line_height }};
+    --font-heading-letter-spacing: {{ settings.heading_letter_spacing }}px;
+    --font-heading-text-transform: {{ settings.heading_text_transform }};
+    --font-heading-text-align: {{ settings.heading_text_align }};
+
+    --font-subheading-family: {{ settings.type_subheading_font.family }}, {{ settings.type_subheading_font.fallback_families }};
+    --font-subheading-weight: {{ settings.type_subheading_font.weight }};
+    --font-subheading-style: {{ settings.type_subheading_font.style }};
+    --font-subheading-size: {{ settings.subheading_font_size }}px;
+    --font-subheading-line-height: {{ settings.subheading_line_height }};
+    --font-subheading-letter-spacing: {{ settings.subheading_letter_spacing }}px;
+    --font-subheading-text-transform: {{ settings.subheading_text_transform }};
+    --font-subheading-text-align: {{ settings.subheading_text_align }};
+
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-size: {{ settings.body_font_size }}px;
+    --font-body-line-height: {{ settings.body_line_height }};
+    --font-body-letter-spacing: {{ settings.body_letter_spacing }}px;
+
+    --font-accent-family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
+    --font-accent-weight: {{ settings.type_accent_font.weight }};
+    --font-accent-style: {{ settings.type_accent_font.style }};
+    --font-accent-size: {{ settings.accent_font_size }}px;
+    --font-accent-line-height: {{ settings.accent_line_height }};
+    --font-accent-letter-spacing: {{ settings.accent_letter_spacing }}px;
+    --font-accent-text-transform: {{ settings.accent_text_transform }};
+    --font-accent-text-align: {{ settings.accent_text_align }};
+
     --page-width: {{ settings.max_page_width }};
     --page-margin: {{ settings.min_page_margin }}px;
+
+    --section-spacing-desktop: {{ settings.section_spacing_desktop }}px;
+    --section-spacing-mobile: {{ settings.section_spacing_mobile }}px;
+    --grid-gap-desktop: {{ settings.grid_gap_desktop }}px;
+    --grid-gap-mobile: {{ settings.grid_gap_mobile }}px;
+
     --color-background: {{ settings.background_color }};
     --color-foreground: {{ settings.foreground_color }};
+
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --input-border-thickness: {{ settings.input_border_thickness }}px;
+
+    --button-radius: {{ settings.button_corner_radius }}px;
+    --button-border-thickness: {{ settings.button_border_thickness }}px;
+    --button-text-transform: {{ settings.button_text_transform }};
+
+    --card-image-ratio: {{ card_image_ratio }};
+
+    --cart-image-width: {{ settings.cart_image_width }}px;
+    --cart-image-ratio: {{ cart_image_ratio }};
+    --cart-image-radius: {{ settings.cart_image_radius }}px;
+    --cart-image-border-width: {% if settings.cart_image_border %}1px{% else %}0px{% endif %};
+    --cart-popup-accent: {{ settings.cart_popup_accent }};
+    --cart-drawer-width: {{ settings.cart_drawer_width }}px;
+
+    --logo-width: {{ settings.logo_width }}px;
+
+    --variant-block-margin-top: {{ settings.variant_block_margin_top }}px;
+    --variant-block-margin-right: {{ settings.variant_block_margin_right }}px;
+    --variant-block-margin-bottom: {{ settings.variant_block_margin_bottom }}px;
+    --variant-block-margin-left: {{ settings.variant_block_margin_left }}px;
+    --variant-block-margin: {{ settings.variant_block_margin_top }}px {{ settings.variant_block_margin_right }}px {{ settings.variant_block_margin_bottom }}px {{ settings.variant_block_margin_left }}px;
+
+    --variant-swatch-size: {{ settings.variant_swatch_size }}px;
   }
 {% endstyle %}

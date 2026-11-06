@@ -14,10 +14,49 @@
     "comment_form_title": "Add a comment"
   },
   "cart": {
-    "checkout": "Checkout",
-    "title": "Cart",
+    "title": "Your cart",
+    "continue_shopping": "Continue shopping",
+    "checkout": "Check out",
     "update": "Update",
-    "remove": "Remove"
+    "remove_item": "Remove {{ title }}",
+    "estimated_total": "Estimated total",
+    "taxes_included": "Taxes included. Discounts and shipping calculated at checkout.",
+    "taxes_excluded": "Taxes, discounts and shipping calculated at checkout.",
+    "status_updated": "Your cart has been updated",
+    "subscription": "Subscription",
+    "columns": {
+      "product": "Product",
+      "quantity": "Quantity",
+      "total": "Total"
+    },
+    "empty": {
+      "title": "Your cart is empty",
+      "login_html": "Have an account? <a href=\"{{ link }}\">Log in</a> to check out faster."
+    },
+    "quantity": {
+      "label": "Quantity for {{ title }}",
+      "decrease": "Decrease quantity for {{ title }}",
+      "increase": "Increase quantity for {{ title }}"
+    },
+    "price": {
+      "original": "Original price",
+      "sale": "Sale price",
+      "unit": "Unit price"
+    },
+    "icon_label": "Cart",
+    "drawer": {
+      "close": "Close cart"
+    },
+    "popup": {
+      "subtotal": "Subtotal:",
+      "view_cart": "View cart",
+      "quantity_price": "{{ quantity }} × {{ price }}"
+    },
+    "note": {
+      "toggle": "Add a note to your order",
+      "label": "Order note",
+      "placeholder": "Gift message, delivery instructions…"
+    }
   },
   "customers": {
     "login": {

@@ -1,0 +1,63 @@
+{% doc %}
+  Renders the cart totals, order note, checkout button and express checkout buttons.
+  Shared by the cart page and cart drawer.
+
+  @param {string} form_id - Id of the cart form the note and checkout button belong to
+  @param {boolean} [show_express] - Show express checkout buttons such as Shop Pay
+  @param {boolean} [full_width] - Stretch to the container width with labels left and amounts right
+
+  @example
+  {% render 'cart-summary', form_id: 'CartForm', show_express: true %}
+{% enddoc %}
+
+<div class="cart-summary{% if full_width %} cart-summary--full{% endif %}">
+  <div class="cart-summary__totals" data-cart-region="totals">
+    {%- if cart.cart_level_discount_applications.size > 0 -%}
+      <ul class="cart-summary__discounts" role="list">
+        {%- for discount in cart.cart_level_discount_applications -%}
+          <li>
+            <span>{{ discount.title | escape }}</span>
+            <span>-{{ discount.total_allocated_amount | money }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <p class="cart-summary__total">
+      <span class="cart-summary__label">{{ 'cart.estimated_total' | t }}</span>
+      <span class="cart-summary__amount">{{ cart.total_price | money_with_currency }}</span>
+    </p>
+
+    <p class="cart-summary__tax">
+      {%- if cart.taxes_included -%}
+        {{ 'cart.taxes_included' | t }}
+      {%- else -%}
+        {{ 'cart.taxes_excluded' | t }}
+      {%- endif -%}
+    </p>
+  </div>
+
+  {%- if settings.cart_note -%}
+    <details class="cart-summary__note"{% if cart.note != blank %} open{% endif %}>
+      <summary>{{ 'cart.note.toggle' | t }}</summary>
+      <label class="visually-hidden" for="{{ form_id }}-note">{{ 'cart.note.label' | t }}</label>
+      <textarea
+        id="{{ form_id }}-note"
+        name="note"
+        form="{{ form_id }}"
+        rows="3"
+        placeholder="{{ 'cart.note.placeholder' | t }}"
+      >{{ cart.note }}</textarea>
+    </details>
+  {%- endif -%}
+
+  <button type="submit" name="checkout" form="{{ form_id }}" class="cart-summary__checkout">
+    {{ 'cart.checkout' | t }}
+  </button>
+
+  {%- if show_express and additional_checkout_buttons -%}
+    <div class="cart-summary__express">
+      {{ content_for_additional_checkout_buttons }}
+    </div>
+  {%- endif -%}
+</div>

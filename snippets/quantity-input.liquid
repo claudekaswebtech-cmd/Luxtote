@@ -1,0 +1,73 @@
+{% doc %}
+  Renders a quantity stepper with minus and plus buttons.
+  Fires a bubbling `change` event on the input when a button is used.
+
+  @param {string} id - Unique id for the input
+  @param {string} name - Input name, for example `updates[]` in the cart
+  @param {number} value - Current quantity
+  @param {string} label - Accessible label for the input
+  @param {string} title - Product title used in the button labels
+  @param {object} [rule] - Variant quantity rule with min, max and increment
+  @param {string} [key] - Cart line item key
+
+  @example
+  {% render 'quantity-input',
+    id: 'Quantity-1',
+    name: 'updates[]',
+    value: item.quantity,
+    label: 'Quantity',
+    title: item.product.title,
+    rule: item.variant.quantity_rule,
+    key: item.key
+  %}
+{% enddoc %}
+
+{% liquid
+  assign min = rule.min | default: 1
+  assign step = rule.increment | default: 1
+  assign max = rule.max
+%}
+
+<quantity-input class="quantity">
+  <button
+    type="button"
+    class="quantity__button"
+    data-step="down"
+    aria-label="{{ 'cart.quantity.decrease' | t: title: title | escape }}"
+    {% if value <= min %}
+      disabled
+    {% endif %}
+  >
+    {% render 'icon', name: 'minus' %}
+  </button>
+
+  <input
+    class="quantity__input"
+    type="number"
+    id="{{ id }}"
+    name="{{ name }}"
+    value="{{ value }}"
+    min="{{ min }}"
+    step="{{ step }}"
+    {% if max %}
+      max="{{ max }}"
+    {% endif %}
+    {% if key %}
+      data-key="{{ key }}"
+    {% endif %}
+    inputmode="numeric"
+    aria-label="{{ label | escape }}"
+  >
+
+  <button
+    type="button"
+    class="quantity__button"
+    data-step="up"
+    aria-label="{{ 'cart.quantity.increase' | t: title: title | escape }}"
+    {% if max and value >= max %}
+      disabled
+    {% endif %}
+  >
+    {% render 'icon', name: 'plus' %}
+  </button>
+</quantity-input>
